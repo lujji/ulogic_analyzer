@@ -26,7 +26,7 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
-  tt_lujji_ulogic_analyzer dut (
+  tt_um_lujji_ulogic_analyzer dut (
 `ifdef GL_TEST
       .VPWR(VPWR),
       .VGND(VGND),
