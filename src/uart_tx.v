@@ -1,6 +1,6 @@
 module uart_tx (
     input wire clk,
-    input wire trigger,
+    input wire reset,
     input wire [7:0] tx_byte,
 
     output wire o_tx,
@@ -19,7 +19,12 @@ module uart_tx (
 
     always @ (posedge clk)
     begin
-        if (trigger == 1'b1) begin
+        if (reset) begin
+            ctr <= timebase;
+            bit_ctr <= 4'd0;
+            tx_done <= 1'b0;
+            tx <= 1'b1;
+        end else begin
             if (ctr == timebase) begin
                 if (bit_ctr == 4'd10) begin
                     /* done - prepare for next byte */
@@ -47,11 +52,6 @@ module uart_tx (
                 tx_done <= 1'b0;
                 ctr <= ctr + 16'd1;
             end
-        end else begin
-            ctr <= timebase;
-            bit_ctr <= 4'd0;
-            tx_done <= 1'b0;
-            tx <= 1'b1;
         end
     end
 

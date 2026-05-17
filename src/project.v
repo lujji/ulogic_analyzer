@@ -30,7 +30,6 @@ wire reset = ~rst_n;
 // UART TX module
 wire tx_done;
 reg [7:0] txd;
-wire tx_trigger = 1'b1; // yolo..
 
 always @(posedge clk)
 if (reset) begin
@@ -41,6 +40,6 @@ end else begin
   end
 end
 
-uart_tx #(.clk_freq (50000000)) UART_TX_inst(clk, tx_trigger, txd, uo_out[0], tx_done);
+uart_tx #(.clk_freq (50000000)) UART_TX_inst(clk, reset, txd, uo_out[0], tx_done);
 
 endmodule
